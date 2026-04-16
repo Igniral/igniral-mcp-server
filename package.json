@@ -1,6 +1,6 @@
 {
   "name": "igniral-mcp-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Igniral MCP Server — Model Context Protocol bridge for AI agents to interact with Igniral's backend APIs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,7 +20,15 @@
     "dev": "tsx src/index.ts",
     "inspect": "npx @modelcontextprotocol/inspector tsx src/index.ts"
   },
-  "keywords": ["mcp", "igniral", "ai", "api", "model-context-protocol", "claude", "cursor"],
+  "keywords": [
+    "mcp",
+    "igniral",
+    "ai",
+    "api",
+    "model-context-protocol",
+    "claude",
+    "cursor"
+  ],
   "author": "Igniral",
   "license": "MIT",
   "repository": {
