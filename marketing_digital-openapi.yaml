@@ -1,0 +1,672 @@
+openapi: 3.1.0
+info:
+  title: Marketing Digital API
+  description: Marketing Digital App
+  contact:
+    name: Igniral Platform
+    url: https://igniral.io
+  version: v1
+servers:
+- url: https://marketing-digital-1c38051a.igniral.io
+  description: Production API Server
+- url: /api/proxy/64fc376c-5954-4483-8ca6-9e9d6eb4664d
+  description: Dashboard Gateway (Secure - Requires Dashboard Login)
+paths:
+  /api/video_library:
+    get:
+      tags:
+      - video_library
+      summary: List all video_library
+      description: Endpoint for video_library
+      operationId: listVideo_library
+      parameters:
+      - name: query
+        in: query
+        description: "RSQL query for filtering (e.g., status==active;price>100)"
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Video_library"
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - video_library
+      summary: POST video_library
+      description: Endpoint for video_library
+      operationId: postVideo_library
+      requestBody:
+        description: description
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Video_library"
+        required: true
+      responses:
+        "201":
+          description: Created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Video_library"
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+  /api/video_library/{id}:
+    get:
+      tags:
+      - video_library
+      summary: Get video_library by ID
+      description: Endpoint for video_library
+      operationId: getVideo_libraryById
+      parameters:
+      - name: id
+        in: path
+        description: Resource ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Video_library"
+        "404":
+          description: Not found
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - video_library
+      summary: PUT video_library
+      description: Endpoint for video_library
+      operationId: putVideo_library
+      parameters:
+      - name: id
+        in: path
+        description: Resource ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        description: description
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Video_library"
+        required: true
+      responses:
+        "200":
+          description: Updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Video_library"
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - video_library
+      summary: Delete video_library
+      description: Endpoint for video_library
+      operationId: deleteVideo_library
+      parameters:
+      - name: id
+        in: path
+        description: Resource ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "204":
+          description: Successfully deleted
+        "404":
+          description: Not found
+      security:
+      - bearerAuth: []
+  /api/storytelling:
+    get:
+      tags:
+      - storytelling
+      summary: List all storytelling
+      description: Endpoint for storytelling
+      operationId: listStorytelling
+      parameters:
+      - name: query
+        in: query
+        description: "RSQL query for filtering (e.g., status==active;price>100)"
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Storytelling"
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - storytelling
+      summary: POST storytelling
+      description: Endpoint for storytelling
+      operationId: postStorytelling
+      requestBody:
+        description: description
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Storytelling"
+        required: true
+      responses:
+        "201":
+          description: Created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Storytelling"
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+  /api/storytelling/{id}:
+    get:
+      tags:
+      - storytelling
+      summary: Get storytelling by ID
+      description: Endpoint for storytelling
+      operationId: getStorytellingById
+      parameters:
+      - name: id
+        in: path
+        description: Resource ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Storytelling"
+        "404":
+          description: Not found
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - storytelling
+      summary: PUT storytelling
+      description: Endpoint for storytelling
+      operationId: putStorytelling
+      parameters:
+      - name: id
+        in: path
+        description: Resource ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        description: description
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Storytelling"
+        required: true
+      responses:
+        "200":
+          description: Updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Storytelling"
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - storytelling
+      summary: Delete storytelling
+      description: Endpoint for storytelling
+      operationId: deleteStorytelling
+      parameters:
+      - name: id
+        in: path
+        description: Resource ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "204":
+          description: Successfully deleted
+        "404":
+          description: Not found
+      security:
+      - bearerAuth: []
+  /api/social_network_catalog:
+    get:
+      tags:
+      - social_network_catalog
+      summary: List all social_network_catalog
+      description: Endpoint for social_network_catalog
+      operationId: listSocial_network_catalog
+      parameters:
+      - name: query
+        in: query
+        description: "RSQL query for filtering (e.g., status==active;price>100)"
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Social_network_catalog"
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - social_network_catalog
+      summary: POST social_network_catalog
+      description: Endpoint for social_network_catalog
+      operationId: postSocial_network_catalog
+      requestBody:
+        description: description
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Social_network_catalog"
+        required: true
+      responses:
+        "201":
+          description: Created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Social_network_catalog"
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+  /api/social_network_catalog/{id}:
+    get:
+      tags:
+      - social_network_catalog
+      summary: Get social_network_catalog by ID
+      description: Endpoint for social_network_catalog
+      operationId: getSocial_network_catalogById
+      parameters:
+      - name: id
+        in: path
+        description: Resource ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Social_network_catalog"
+        "404":
+          description: Not found
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - social_network_catalog
+      summary: PUT social_network_catalog
+      description: Endpoint for social_network_catalog
+      operationId: putSocial_network_catalog
+      parameters:
+      - name: id
+        in: path
+        description: Resource ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        description: description
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Social_network_catalog"
+        required: true
+      responses:
+        "200":
+          description: Updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Social_network_catalog"
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - social_network_catalog
+      summary: Delete social_network_catalog
+      description: Endpoint for social_network_catalog
+      operationId: deleteSocial_network_catalog
+      parameters:
+      - name: id
+        in: path
+        description: Resource ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "204":
+          description: Successfully deleted
+        "404":
+          description: Not found
+      security:
+      - bearerAuth: []
+  /api/oauth/login:
+    post:
+      tags:
+      - Authentication
+      summary: User Authentication
+      description: |-
+        Authenticate a user with email and password credentials. Returns an access token that should be used in the Authorization header for subsequent API requests.
+
+        **URL:** https://auth.igniral.io/api/oauth/login
+      operationId: loginUser
+      requestBody:
+        description: User credentials
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "400":
+          description: Bad request - Invalid email format or missing fields
+        "401":
+          description: Unauthorized - Invalid email or password
+        "429":
+          description: Too many requests - Rate limit exceeded
+        "500":
+          description: Internal server error
+      security: []
+      servers:
+      - url: https://auth.igniral.io
+        description: Production Server
+  /api/user/request-password-reset:
+    post:
+      tags:
+      - Password Reset
+      summary: Request Password Reset
+      description: |-
+        Initiates the password reset process. Sends a password reset code to the user's email address.
+
+        **URL:** https://auth.igniral.io/api/user/request-password-reset
+      operationId: requestPasswordReset
+      requestBody:
+        description: Email address for password reset
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PasswordResetInitRequest"
+        required: true
+      responses:
+        "200":
+          description: Password reset code generated successfully
+          content:
+            application/json:
+              schema:
+                type: string
+                description: Password reset code (oobCode)
+        "400":
+          description: Bad request - Invalid email format
+        "404":
+          description: User with this email not found
+        "500":
+          description: Internal server error
+      security: []
+      servers:
+      - url: https://auth.igniral.io
+        description: Production Server
+  /api/user/reset-password:
+    post:
+      tags:
+      - Password Reset
+      summary: Complete Password Reset
+      description: |-
+        Completes the password reset process using the code received via email.
+
+        **URL:** https://auth.igniral.io/api/user/reset-password
+      operationId: resetPassword
+      requestBody:
+        description: Password reset code and new password
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PasswordResetCompleteRequest"
+        required: true
+      responses:
+        "200":
+          description: Password reset successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PasswordResetResponse"
+        "400":
+          description: "Bad request - Invalid or expired code, or password does not\
+            \ meet requirements"
+        "500":
+          description: Internal server error
+      security: []
+      servers:
+      - url: https://auth.igniral.io
+        description: Production Server
+components:
+  schemas:
+    Video_library:
+      title: Video_library
+      required:
+      - technical_title
+      - purpose
+      - pain_point_solved
+      - keywords
+      type: object
+      properties:
+        purpose:
+          type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        technical_title:
+          type: string
+        pain_point_solved:
+          type: string
+    LoginResponse:
+      title: LoginResponse
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: JWT access token for API authorization
+        tokenType:
+          type: string
+          description: Token type (typically 'Bearer')
+          example: Bearer
+        expiresIn:
+          type: integer
+          description: Token expiration time in seconds
+          format: int32
+        refreshToken:
+          type: string
+          description: Refresh token for obtaining new access tokens
+      description: Authentication response containing access token and user information
+    PasswordResetResponse:
+      title: PasswordResetResponse
+      type: object
+      properties:
+        message:
+          type: string
+          description: Success or status message
+      description: Response from password reset operations.
+    Storytelling:
+      title: Storytelling
+      required:
+      - videos_used
+      - storytelling
+      - cost_per_click
+      - social_network_uid
+      - impressions
+      - interaction_rate
+      - conversions
+      type: object
+      properties:
+        conversions:
+          type: integer
+          format: int32
+        impressions:
+          type: integer
+          format: int32
+        videos_used:
+          type: array
+          items:
+            type: string
+        storytelling:
+          type: string
+        cost_per_click:
+          type: number
+        interaction_rate:
+          type: number
+        social_network_uid:
+          type: string
+    PasswordResetCompleteRequest:
+      title: PasswordResetCompleteRequest
+      required:
+      - oobCode
+      - newPassword
+      type: object
+      properties:
+        oobCode:
+          type: string
+          description: Password reset code received from the request-password-reset
+            endpoint
+          example: abc123xyz
+        newPassword:
+          type: string
+          description: New password to set. Must meet password complexity requirements.
+          example: NewSecurePassword123!
+      description: Request to complete password reset with the code received via email.
+    LoginRequest:
+      title: LoginRequest
+      required:
+      - email
+      - password
+      type: object
+      properties:
+        email:
+          type: string
+          description: User email address
+          format: email
+          example: your_email@example.com
+        password:
+          type: string
+          description: User password
+          example: your_secure_password
+      description: Authentication request with email and password
+    PasswordResetInitRequest:
+      title: PasswordResetInitRequest
+      required:
+      - email
+      type: object
+      properties:
+        email:
+          type: string
+          description: User's email address
+          format: email
+          example: user@example.com
+      description: Request to initiate password reset. An email with reset code will
+        be sent.
+    Social_network_catalog:
+      title: Social_network_catalog
+      type: object
+      properties:
+        name:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      description: "JWT Bearer Token authentication for external API clients. First,\
+        \ call the /api/oauth/login endpoint with your credentials to obtain an access\
+        \ token. Then use the token in the Authorization header: 'Bearer {accessToken}'"
+      scheme: bearer
+      bearerFormat: JWT
+    sessionAuth:
+      type: apiKey
+      description: "Dashboard session cookie (internal use only). This authentication\
+        \ method is used automatically when accessing APIs through the Dashboard's\
+        \ Swagger UI. For external clients (Postman, etc.), use 'bearerAuth' instead."
+      name: DASHBOARD_SESSION
+      in: cookie
