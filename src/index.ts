@@ -27,12 +27,24 @@ import { executeListApplications } from "./tools/list-applications.js";
 
 // ─── Bootstrap ──────────────────────────────────────────────────────────
 
-const config = loadConfig();
-const client = new IgniralClient(config);
+let config: ReturnType<typeof loadConfig>;
+let client: IgniralClient;
+
+try {
+  config = loadConfig();
+  client = new IgniralClient(config);
+} catch (error) {
+  const message = error instanceof Error ? error.message : String(error);
+  console.error(`\n✖ ${message}\n`);
+  console.error("Tip: Pass credentials via environment variables when configuring your MCP client:");
+  console.error('  "env": { "IGNIRAL_CLIENT_ID": "...", "IGNIRAL_CLIENT_SECRET": "..." }\n');
+  console.error("Get your Agent API Key at: https://igniral.com\n");
+  process.exit(1);
+}
 
 const server = new McpServer({
   name: "igniral-mcp-server",
-  version: "1.0.0",
+  version: "1.0.2",
 });
 
 // ─── Tool 1: Generate Schema from Prompt ────────────────────────────────
@@ -219,6 +231,7 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error("Fatal error starting Igniral MCP Server:", error);
+  const message = error instanceof Error ? error.message : String(error);
+  console.error(`\n✖ Fatal error: ${message}\n`);
   process.exit(1);
 });
