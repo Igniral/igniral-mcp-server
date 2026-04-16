@@ -17,49 +17,21 @@ Model Context Protocol (MCP) server that bridges AI agents (Claude, Cursor, Anti
 
 **Get started for free** at [igniral.com](https://igniral.com) → [Start Now](https://auth.igniral.com/subscribe)
 
-## Authentication
+## Prerequisites
 
-This server uses **Agent API Keys** (OAuth2 `client_credentials` grant) to authenticate with Igniral's backend. Tokens are automatically obtained and renewed — you only need to provide your `clientId` and `clientSecret`.
+1. **Create an Igniral account** at [igniral.com](https://auth.igniral.com/subscribe) (free tier available)
+2. **Generate Agent API Keys** from the [Igniral Dashboard](https://auth.igniral.com/login) → Agent API Keys
+3. **Have Node.js ≥ 18** installed on your machine
 
-Generate credentials from the **[Igniral Dashboard](https://auth.igniral.com/login) → Agent API Keys**.
+> **Important:** This is an MCP server — it runs inside your AI-powered IDE (Claude Desktop, Cursor, Antigravity, etc.), not directly from the terminal. You configure it once in your IDE settings, and the IDE handles starting and stopping it automatically.
 
-## Quick Start (via NPM)
+## Quick Start
 
-The easiest way to use this server is via `npx` — no cloning or installing required:
+Choose your IDE and add the following configuration. Replace `agent-xxxxxxxxxxxx` and `your-client-secret` with your actual Agent API Key credentials.
 
-```bash
-npx -y igniral-mcp-server
-```
+### Claude Desktop
 
-Or install globally:
-
-```bash
-npm install -g igniral-mcp-server
-```
-
-## Setup (from source)
-
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-2. **Configure environment:**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your Agent API Key credentials
-   ```
-
-3. **Build:**
-   ```bash
-   npm run build
-   ```
-
-## Usage
-
-### With Claude Desktop
-
-Add to your `claude_desktop_config.json`:
+Edit your `claude_desktop_config.json`:
 
 ```json
 {
@@ -76,9 +48,9 @@ Add to your `claude_desktop_config.json`:
 }
 ```
 
-### With Cursor
+### Cursor
 
-Add to your `.cursor/mcp.json`:
+Edit your `.cursor/mcp.json`:
 
 ```json
 {
@@ -95,7 +67,7 @@ Add to your `.cursor/mcp.json`:
 }
 ```
 
-### With Antigravity (Google)
+### Antigravity (Google)
 
 Edit `~/.gemini/antigravity/mcp_config.json`:
 
@@ -116,17 +88,15 @@ Edit `~/.gemini/antigravity/mcp_config.json`:
 
 > **Note:** Antigravity may not inherit your shell's `PATH`. Use the absolute path to `node` (e.g., `/opt/homebrew/Cellar/node/25.9.0_2/bin/node`) if you get "executable not found" errors.
 
-### Development
+That's it! After saving the configuration and restarting your IDE, you can ask your AI agent things like:
 
-```bash
-# Run in development mode
-npm run dev
-
-# Test with MCP Inspector
-npm run inspect
-```
+- *"Build me a gym management API"*
+- *"Create a REST API for a pet store with products, orders, and users"*
+- *"List my existing Igniral applications"*
 
 ## Tools
+
+Once configured, the following tools are available to your AI agent:
 
 | Tool | Description |
 |------|-------------|
@@ -166,6 +136,19 @@ server    builder     microservice
 | `IGNIRAL_API_URL` | ❌ | API URL (default: `https://api.igniral.io`) |
 | `IGNIRAL_AI_API_URL` | ❌ | AI API URL (default: `https://ai.igniral.com`) |
 
+## Development (from source)
+
+Only needed if you want to contribute or modify the server:
+
+```bash
+git clone https://github.com/igniral/igniral-mcp-server.git
+cd igniral-mcp-server
+npm install
+cp .env.example .env   # Edit with your credentials
+npm run dev             # Start in development mode
+npm run inspect         # Test with MCP Inspector
+```
+
 ## Links
 
 - 🌐 **Website:** [igniral.com](https://igniral.com)
@@ -176,3 +159,4 @@ server    builder     microservice
 ## License
 
 MIT
+
