@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
  * Igniral MCP Server — Entry Point
  *

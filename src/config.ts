@@ -20,15 +20,13 @@ export interface IgniralConfig {
 export function loadConfig(): IgniralConfig {
   const clientId = process.env.IGNIRAL_CLIENT_ID;
   const clientSecret = process.env.IGNIRAL_CLIENT_SECRET;
-  const authUrl = process.env.IGNIRAL_AUTH_URL || "https://auth.igniral.io";
-  const apiUrl = process.env.IGNIRAL_API_URL;
-  const aiApiUrl = process.env.IGNIRAL_AI_API_URL;
+  const authUrl = process.env.IGNIRAL_AUTH_URL || "https://auth.igniral.com";
+  const apiUrl = process.env.IGNIRAL_API_URL || "https://api.igniral.io";
+  const aiApiUrl = process.env.IGNIRAL_AI_API_URL || "https://ai.igniral.com";
 
   const missing: string[] = [];
   if (!clientId) missing.push("IGNIRAL_CLIENT_ID");
   if (!clientSecret) missing.push("IGNIRAL_CLIENT_SECRET");
-  if (!apiUrl) missing.push("IGNIRAL_API_URL");
-  if (!aiApiUrl) missing.push("IGNIRAL_AI_API_URL");
 
   if (missing.length > 0) {
     throw new Error(
@@ -41,7 +39,7 @@ export function loadConfig(): IgniralConfig {
     clientId: clientId!,
     clientSecret: clientSecret!,
     authUrl: authUrl.replace(/\/$/, ""),
-    apiUrl: apiUrl!.replace(/\/$/, ""),
-    aiApiUrl: aiApiUrl!.replace(/\/$/, ""),
+    apiUrl: apiUrl.replace(/\/$/, ""),
+    aiApiUrl: aiApiUrl.replace(/\/$/, ""),
   };
 }
