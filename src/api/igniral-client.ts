@@ -52,6 +52,19 @@ export class IgniralClient {
   }
 
   /**
+   * PUT request to the JSON Elements microservice.
+   * Used by Tool 5 (update dynamic endpoint).
+   */
+  async putToApi<T = unknown>(
+    path: string,
+    body: Record<string, unknown>,
+    extraHeaders?: Record<string, string>
+  ): Promise<ApiResponse<T>> {
+    const url = `${this.config.apiUrl}${path}`;
+    return this.doFetch<T>(url, "PUT", body, extraHeaders);
+  }
+
+  /**
    * GET request to the JSON Elements microservice.
    * Used by Tool 4 (list applications).
    */

@@ -24,6 +24,7 @@ import { executeGenerateSchema } from "./tools/generate-schema.js";
 import { executeCreateApplication } from "./tools/create-application.js";
 import { executeCreateEndpoint } from "./tools/create-endpoint.js";
 import { executeListApplications } from "./tools/list-applications.js";
+import { executeUpdateEndpoint } from "./tools/update-endpoint.js";
 
 // ─── Bootstrap ──────────────────────────────────────────────────────────
 
@@ -213,6 +214,80 @@ Takes no parameters — the user is identified by the configured service token.`
   {},
   async () => {
     const result = await executeListApplications(client);
+    return { content: [{ type: "text" as const, text: result }] };
+  }
+);
+
+// ─── Tool 5: Update Dynamic Endpoint ────────────────────────────────────
+
+server.tool(
+  "igniral_update_dynamic_endpoint",
+  `Updates a dynamic API endpoint within an existing application. 
+Requires an endpointId from a previous list_applications call. 
+
+Use this to modify the schema or configuration of an already existing endpoint.`,
+  {
+    endpointId: z.string().describe("ID of the endpoint to update"),
+    applicationId: z.string().describe("ID of the application the endpoint belongs to"),
+    endpointPath: z
+      .string()
+      .describe(
+        "URL path for the endpoint (e.g., '/products', '/users', '/orders'). " +
+          "Must start with / and use lowercase letters, numbers, and hyphens."
+      ),
+    allowedMethods: z
+      .array(z.string())
+      .describe(
+        "HTTP methods to enable: ['GET', 'POST', 'PUT', 'DELETE']. " +
+          "Include all methods the endpoint should support."
+      ),
+    schemaDefinition: z
+      .record(z.string(), z.unknown())
+      .describe(
+        "JSON Schema defining the data structure for this endpoint. " +
+          'Must include "$schema", "type": "object", and "properties". ' +
+          "Each property needs a type (string, number, integer, boolean, array, object)."
+      ),
+    type: z
+      .enum(["JSON", "FILE"])
+      .optional()
+      .describe("Endpoint type: 'JSON' for data APIs (default), 'FILE' for file uploads"),
+    visibility: z
+      .enum(["PUBLIC", "PRIVATE"])
+      .optional()
+      .describe(
+        "Endpoint visibility: 'PRIVATE' (default, requires auth) or " +
+          "'PUBLIC' (accessible without auth, only for public apps)"
+      ),
+    securityPolicy: z
+      .enum(["NONE", "OWNER_ONLY", "CLAIM_FILTER"])
+      .optional()
+      .describe(
+        "Data access control: 'NONE' (shared data), " +
+          "'OWNER_ONLY' (users see only their data), " +
+          "'CLAIM_FILTER' (filter by JWT claims, requires securityConfig)"
+      ),
+    securityConfig: z
+      .object({
+        claimFilterRules: z.array(
+          z.object({
+            payloadPath: z.string(),
+            claimName: z.string(),
+          })
+        ),
+      })
+      .optional()
+      .describe(
+        "Required when securityPolicy is 'CLAIM_FILTER'. " +
+          "Defines which JWT claim maps to which data field for filtering."
+      ),
+    endpointDocumentation: z
+      .string()
+      .optional()
+      .describe("Human-readable documentation for this endpoint"),
+  },
+  async (params) => {
+    const result = await executeUpdateEndpoint(client, params as Record<string, unknown>);
     return { content: [{ type: "text" as const, text: result }] };
   }
 );

@@ -109,3 +109,24 @@ export function wrapApplicationList(
     `To add endpoints to an existing application, use igniral_create_dynamic_endpoint with the application ID.`,
   ].join("\n");
 }
+
+/**
+ * Wraps a successful endpoint update response.
+ */
+export function wrapEndpointUpdated(data: Record<string, unknown>): string {
+  const id = data.id || "unknown";
+  const path = data.endpointPath || "unknown";
+  const methods = Array.isArray(data.allowedMethods)
+    ? (data.allowedMethods as string[]).join(", ")
+    : "unknown";
+
+  return [
+    `✅ Success. Dynamic endpoint updated.`,
+    ``,
+    `• Endpoint ID: ${id}`,
+    `• Path: ${path}`,
+    `• Methods: ${methods}`,
+    ``,
+    `The schema and configuration for this endpoint have been successfully updated.`,
+  ].join("\n");
+}

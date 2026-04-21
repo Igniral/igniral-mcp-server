@@ -101,3 +101,47 @@ export const createEndpointInput = z
 export type GenerateSchemaInput = z.infer<typeof generateSchemaInput>;
 export type CreateApplicationInput = z.infer<typeof createApplicationInput>;
 export type CreateEndpointInput = z.infer<typeof createEndpointInput>;
+
+/**
+ * Tool 5: igniral_update_dynamic_endpoint
+ * Validates endpoint update parameters.
+ * Maps to DynamicEndpointRequest DTO in json-elements, but adds endpointId.
+ */
+export const updateEndpointInput = z
+  .object({
+    endpointId: z.string().min(1, "endpointId is required"),
+    applicationId: z.string().min(1, "applicationId is required"),
+    endpointPath: z
+      .string()
+      .min(1, "endpointPath is required")
+      .regex(
+        /^\/[a-z0-9-/]+$/,
+        "endpointPath must start with / and contain only lowercase letters, numbers, hyphens, and slashes"
+      ),
+    allowedMethods: z
+      .array(z.enum(["GET", "POST", "PUT", "DELETE"]))
+      .min(1, "At least one HTTP method is required"),
+    schemaDefinition: z.record(z.unknown()).refine(
+      (schema) => schema["type"] !== undefined || schema["$schema"] !== undefined,
+      "schemaDefinition must be a valid JSON Schema with at least a 'type' or '$schema' property"
+    ),
+    type: z.enum(["JSON", "FILE"]).optional().default("JSON"),
+    visibility: z.enum(["PUBLIC", "PRIVATE"]).optional().default("PRIVATE"),
+    securityPolicy: z
+      .enum(["NONE", "OWNER_ONLY", "CLAIM_FILTER"])
+      .optional()
+      .default("NONE"),
+    securityConfig: securityConfigSchema.optional(),
+    endpointDocumentation: z.string().optional(),
+  })
+  .refine(
+    (data) =>
+      data.securityPolicy !== "CLAIM_FILTER" || data.securityConfig != null,
+    {
+      message:
+        "securityConfig with claimFilterRules is required when securityPolicy is CLAIM_FILTER",
+      path: ["securityConfig"],
+    }
+  );
+
+export type UpdateEndpointInput = z.infer<typeof updateEndpointInput>;
