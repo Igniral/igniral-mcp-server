@@ -48,10 +48,11 @@ export async function executeCreateApplication(
   if (subdomain) body.subdomain = subdomain;
   if (aiGeneratedContext) body.aiGeneratedContext = aiGeneratedContext;
 
-  // 3. Call the AI-generate endpoint
+  // 3. Call the AI-generate endpoint (include subscription from JWT)
   const response = await client.postToApi<Record<string, unknown>>(
     "/api/igniral-user-application/ai-generate",
-    body
+    body,
+    { "X-User-Subscription": client.getSubscription() }
   );
 
   if (!response.ok) {

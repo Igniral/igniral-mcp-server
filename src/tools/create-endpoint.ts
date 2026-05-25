@@ -51,10 +51,11 @@ export async function executeCreateEndpoint(
     body.endpointDocumentation = validated.endpointDocumentation;
   }
 
-  // 3. Call the AI-generate endpoint
+  // 3. Call the AI-generate endpoint (include subscription from JWT)
   const response = await client.postToApi<Record<string, unknown>>(
     "/api/igniral-user-dynamic-endpoint/ai-generate",
-    body
+    body,
+    { "X-User-Subscription": client.getSubscription() }
   );
 
   if (!response.ok) {

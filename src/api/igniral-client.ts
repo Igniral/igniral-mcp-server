@@ -22,6 +22,14 @@ export class IgniralClient {
   }
 
   /**
+   * Returns the subscription plan from the cached JWT.
+   * Must be called after at least one request has been made (which triggers token fetch).
+   */
+  getSubscription(): string {
+    return this.tokenManager.getSubscription();
+  }
+
+  /**
    * Common headers for all requests.
    * Includes Authorization (Bearer token) and X-Acting-User (from JWT sub).
    */

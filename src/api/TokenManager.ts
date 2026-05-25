@@ -8,6 +8,7 @@ interface TokenResponse {
 
 interface JwtPayload {
   sub?: string;
+  subscription?: string;
   [key: string]: unknown;
 }
 
@@ -15,6 +16,7 @@ export class TokenManager {
   private config: IgniralConfig;
   private accessToken: string | null = null;
   private userId: string | null = null;
+  private subscription: string = "FREE";
   private expiresAt: number = 0;
   private isFetching: boolean = false;
   private fetchPromise: Promise<string> | null = null;
@@ -51,6 +53,15 @@ export class TokenManager {
     return this.userId;
   }
 
+  /**
+   * Returns the subscription plan from the cached JWT.
+   * Must be called after getToken().
+   * Falls back to "FREE" if the claim is missing.
+   */
+  getSubscription(): string {
+    return this.subscription;
+  }
+
   private async fetchNewToken(): Promise<string> {
     const tokenUrl = `${this.config.authUrl}/oauth2/token`;
     const basicAuth = Buffer.from(`${this.config.clientId}:${this.config.clientSecret}`).toString('base64');
@@ -79,8 +90,10 @@ export class TokenManager {
       // expires_in is in seconds, convert to absolute ms timestamp
       this.expiresAt = Date.now() + (data.expires_in * 1000);
 
-      // Decode JWT payload to extract sub (userId)
-      this.userId = this.extractSubFromJwt(data.access_token);
+      // Decode JWT payload to extract sub (userId) and subscription
+      const jwtPayload = this.decodeJwtPayload(data.access_token);
+      this.userId = jwtPayload?.sub ?? null;
+      this.subscription = jwtPayload?.subscription ?? "FREE";
       
       return this.accessToken;
     } catch (err) {
@@ -89,15 +102,14 @@ export class TokenManager {
   }
 
   /**
-   * Decode the JWT payload (base64url) to extract the 'sub' claim.
+   * Decode the JWT payload (base64url) to extract claims.
    * No signature verification — the backend already validates the token.
    */
-  private extractSubFromJwt(token: string): string | null {
+  private decodeJwtPayload(token: string): JwtPayload | null {
     try {
       const parts = token.split('.');
       if (parts.length !== 3) return null;
-      const payload = JSON.parse(Buffer.from(parts[1], 'base64url').toString()) as JwtPayload;
-      return payload.sub ?? null;
+      return JSON.parse(Buffer.from(parts[1], 'base64url').toString()) as JwtPayload;
     } catch {
       return null;
     }
